@@ -6,23 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>分布式系统原理 | chengfengjie的技术点点滴滴</title>
+  <title>Archives: 2017/6 | chengfengjie的技术点点滴滴</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。 开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。">
-<meta name="keywords" content="分布式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="分布式系统原理">
-<meta property="og:url" content="http://yoursite.com/2018/04/11/distributed-system/index.html">
+  <meta name="description" content="点点滴滴的积累，从量变到质变之路，技术之路，无尽头">
+<meta name="keywords" content="JAVA、iOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="chengfengjie的技术点点滴滴">
+<meta property="og:url" content="http://yoursite.com/archives/2017/06/index.html">
 <meta property="og:site_name" content="chengfengjie的技术点点滴滴">
-<meta property="og:description" content="最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。 开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。">
+<meta property="og:description" content="点点滴滴的积累，从量变到质变之路，技术之路，无尽头">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/resources/distributed-system-1.png">
-<meta property="og:image" content="http://yoursite.com/resources/distributed-system-2.png">
-<meta property="og:updated_time" content="2018-04-12T12:05:05.885Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分布式系统原理">
-<meta name="twitter:description" content="最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。 开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。">
-<meta name="twitter:image" content="http://yoursite.com/resources/distributed-system-1.png">
+<meta name="twitter:title" content="chengfengjie的技术点点滴滴">
+<meta name="twitter:description" content="点点滴滴的积累，从量变到质变之路，技术之路，无尽头">
   
     <link rel="alternative" href="/atom.xml" title="chengfengjie的技术点点滴滴" type="application/atom+xml">
   
@@ -140,222 +136,49 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-distributed-system" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      分布式系统原理
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/06/12/dubbo/" class="archive-article-date">
+  	<time datetime="2017-06-12T12:07:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-12</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/06/12/dubbo/">dubbo基本使用方式</a>
     </h1>
   
 
-        
-        <a href="/2018/04/11/distributed-system/" class="archive-article-date">
-  	<time datetime="2018-04-11T15:42:18.098Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。</p>
-<p>开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。</p>
-<a id="more"></a>
-<h1 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h1><h3 id="1、节点"><a href="#1、节点" class="headerlink" title="1、节点"></a>1、节点</h3><p>节点是指一个独立按照分布式协议完成一组逻辑的程序个体。一般是运行在一台机器上的一个程序，一般认为节点是一个完整的、不可分割的整体。</p>
-<h3 id="2、通信"><a href="#2、通信" class="headerlink" title="2、通信"></a>2、通信</h3><p>节点与节点之间是完全独立的、相互隔离的，节点之间传递信息的唯一方式是通过不可靠的网络进行通信，即一个节点可以向其他节点通过网络发送信息，但发送信息的节点无法确认消息是否被接收节点完整正确收到</p>
-<h3 id="3、存储"><a href="#3、存储" class="headerlink" title="3、存储"></a>3、存储</h3><p>节点可以通过将数据写入与节点在同一台机器的本地存储设备保存数据。通常的存储设备有磁盘、SSD等。存储、读取数据的节点称为有状态的节点，反之是无状态的节点。如果某个节点A存储数据的方式是将数据通过网络发送到另一个节点B，由节点B负责将数据存储到节点B的本地存储设备，那么A不是有状态节点，只有B是无状态节点。</p>
-<h3 id="4、异常"><a href="#4、异常" class="headerlink" title="4、异常"></a>4、异常</h3><p>分布式系统的核心问题之一就是处理各种异常(failure)情况，异常情况包括以下内容:</p>
-<h4 id="（1）机器宕机"><a href="#（1）机器宕机" class="headerlink" title="（1）机器宕机"></a>（1）机器宕机</h4><p>机器宕机是最常见的异常之一。在大型集群中每日发生宕机的概率为千分之一左右。宕机造成的后果通常为该机器上节点不能正常工作。架设节点的工作流程是三个独立原子的步骤，宕机造成的后果是节点可能在处理某个步骤后不再继续处理后续步骤，从而造成某些协议路程无法完成。<br>当发生宕机时，节点无法正常工作，称为“不可用”(unabailable)状态。</p>
-<h4 id="（2）网络异常"><a href="#（2）网络异常" class="headerlink" title="（2）网络异常"></a>（2）网络异常</h4><p>网络异常是另一类常见的异常形式，节点之间通过不可靠的网络进行通信。网络异常如下:</p>
-<ul>
-<li><p>消息丢失</p>
-</li>
-<li><p>消息乱序</p>
-</li>
-<li><p>数据错误</p>
-</li>
-<li><p>不可靠的TCP</p>
-</li>
-</ul>
-<h1 id="二、分布式系统原理"><a href="#二、分布式系统原理" class="headerlink" title="二、分布式系统原理"></a>二、分布式系统原理</h1><h3 id="1、数据分布方式"><a href="#1、数据分布方式" class="headerlink" title="1、数据分布方式"></a>1、数据分布方式</h3><p>所谓分布式系统顾名思义就是利用多台计算机协同解决单台计算机不能解决的计算、存储等问题。单机系统和分布式系统的最大区别在于问题的规模，即计算、存储的数据量的区别。将单机问题使用分布式解决，首先要解决就是如何将问题拆解为可以使用多机多机分布式解决，使得分布式系统中的每台机器负责原问题的一个子集。由于无论是计算还是存储，其问题输入对象都是数据，所以如何拆解分布式系统的输入数据成为分布式系统的基本问题。拆分如下:</p>
-<h4 id="1-、哈希方式"><a href="#1-、哈希方式" class="headerlink" title="(1)、哈希方式"></a>(1)、哈希方式</h4><h4 id="2-、按数据范围分布"><a href="#2-、按数据范围分布" class="headerlink" title="(2)、按数据范围分布"></a>(2)、按数据范围分布</h4><h4 id="3-、按数据量分布"><a href="#3-、按数据量分布" class="headerlink" title="(3)、按数据量分布"></a>(3)、按数据量分布</h4><h4 id="4-、一致性哈希"><a href="#4-、一致性哈希" class="headerlink" title="(4)、一致性哈希"></a>(4)、一致性哈希</h4><h4 id="5-、副本与数据分布"><a href="#5-、副本与数据分布" class="headerlink" title="(5)、副本与数据分布"></a>(5)、副本与数据分布</h4><h4 id="6-、本地化计算"><a href="#6-、本地化计算" class="headerlink" title="(6)、本地化计算"></a>(6)、本地化计算</h4><h4 id="7-、数据分布方式的选择"><a href="#7-、数据分布方式的选择" class="headerlink" title="(7)、数据分布方式的选择"></a>(7)、数据分布方式的选择</h4><h3 id="2、基本副本协议"><a href="#2、基本副本协议" class="headerlink" title="2、基本副本协议"></a>2、基本副本协议</h3><p>副本控制协议指按特定的协议流程控制副本数据的读写行为，使得副本满足一定的可用性和一致性要求的分布式协议。副本控制协议要具有一定的对抗异常状态的容错能力，从而使得系统具有一定的可用性，同时副本控制协议要能提供一定的一致性。由CAP原理可知，要设计一种满足强一致性，且在出现任何网络异常时都可用的副本协议是不可能的。为此，实际中的副本控制协议总是在可用性、一致性与性能等各要素之间按照具体需求折中。</p>
-<p>控制协议分为两大类: “中心化副本控制协议”和”去中心化副本控制协议”</p>
-<h4 id="1-、中心化副本控制协议"><a href="#1-、中心化副本控制协议" class="headerlink" title="(1)、中心化副本控制协议"></a>(1)、中心化副本控制协议</h4><p>中心化副本控制协议的基本思路是由一个中心节点协调副本数据的更新、维护副本之间的一致性。下图为中心化副本协议的通用架构。</p>
-<p><img src="/resources/distributed-system-1.png" alt="中心化副本控制协议"></p>
-<ul>
-<li>优点: 协议相对较简单，所有副本相关的控制交由中心节点完成。并发控制由中心节点完成，从而使得一个分布式并发控制问题简化为一个单击并发控制问题。</li>
-</ul>
-<blockquote>
-<p>并发控制: 多个节点需要同时修改副本数据时，需要解决“写写”、“读写”等并发冲突。单击系统上常用加锁等方式进行并发控制，对于分布式并发控制，加锁也是常用的方法，但是如果没有中心节点进行锁管理，就需要完全分布式化的锁系统，会使协议非常复杂。</p>
-</blockquote>
-<ul>
-<li>缺点: 系统的可用性依赖于中心化节点，当中心节点异常或与中心节点通信中断时，系统将失去某些服务，所以中心化副本控制协议的缺点正式存在一定的服务停止时间</li>
-</ul>
-<h5 id="primary-secondary协议"><a href="#primary-secondary协议" class="headerlink" title="primary-secondary协议"></a>primary-secondary协议</h5><p>primary-secondary协议是一种中心化副本控制协议，在primary-secondary协议中，副本被分为两大类，其中有且仅有一个副本作为primary副本，其他的都是secondary副本，维护副本的节点作为中心节点，中心节点负责维护数据的更新、并发控制、协调副本的一致性。<br>primary-secondary协议主要解决四大问题:</p>
-<ul>
-<li>数据更新流程</li>
-<li>数据读取方式</li>
-<li>Primary副本的确定和切换</li>
-<li>数据同步</li>
-</ul>
-<h5 id="1-、数据更新流程"><a href="#1-、数据更新流程" class="headerlink" title="[1]、数据更新流程"></a>[1]、数据更新流程</h5><p>1)、数据更新都由primary节点协调完成<br>2)、外部节点将更新操作发送给primary节点<br>3)、primary节点进行并发控制即确定并发更新操作的先后顺序<br>4)、primary节点将更新操作发送给secondary节点<br>5)、primary更具secondary节点的完成情况决定更新是否成功并将结果返回给外部节点  </p>
-<p><img src="/resources/distributed-system-2.png" alt="中心化副本控制协议数据更新流程"></p>
-<h5 id="2-、数据读取方式"><a href="#2-、数据读取方式" class="headerlink" title="[2]、数据读取方式"></a>[2]、数据读取方式</h5><p>数据读取方式是primary-secondary类协议需要解决的第二个问题。与数据更新流程类似，读取方式也与一致性高度相关。如果只需要最终一致性，则读取任何副本都可以满足需求。如果需要会话一致性，则可以为副本设置版本号，每次更新后递增版本号，用户读取副本时验证版本号，从而保证用户读到的数据在会话范围内单调递增，使primary-secondary比较困难是实现强一致性。<br>以下是实现primary-secondary实现强一致性的几种思路:</p>
-<ul>
-<li>由于数据更新流程都是primary控制的，primary副本上的数据一定是最新的，所以如果始终只读primary副本的数据，可以实现强一致性。</li>
-<li>由primary控制节点secondary节点的可用性。当primary更新某个secondary副本不成功时，primary将该secondary副本标记为不可用，从而用户不在读取该不可用的副本，不可用的secondary副本可以继续尝试与primary同步数据，同步成功后，标记为可用。</li>
-<li>基于Quorum机制</li>
-</ul>
-<h5 id="3-、primary副本的确定与切换"><a href="#3-、primary副本的确定与切换" class="headerlink" title="[3]、primary副本的确定与切换"></a>[3]、primary副本的确定与切换</h5>
-      
+        <div class="article-info info-on-right">
+          
+          
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/04/11/distributed-system/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
   
   
-    <a href="/2017/06/12/dubbo/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">dubbo基本使用方式</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、基本概念"><span class="toc-number">1.</span> <span class="toc-text">一、基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、节点"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、通信"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、存储"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、异常"><span class="toc-number">1.0.4.</span> <span class="toc-text">4、异常</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（1）机器宕机"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">（1）机器宕机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（2）网络异常"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">（2）网络异常</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、分布式系统原理"><span class="toc-number">2.</span> <span class="toc-text">二、分布式系统原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、数据分布方式"><span class="toc-number">2.0.1.</span> <span class="toc-text">1、数据分布方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-、哈希方式"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">(1)、哈希方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-、按数据范围分布"><span class="toc-number">2.0.1.2.</span> <span class="toc-text">(2)、按数据范围分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-、按数据量分布"><span class="toc-number">2.0.1.3.</span> <span class="toc-text">(3)、按数据量分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-、一致性哈希"><span class="toc-number">2.0.1.4.</span> <span class="toc-text">(4)、一致性哈希</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-、副本与数据分布"><span class="toc-number">2.0.1.5.</span> <span class="toc-text">(5)、副本与数据分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-、本地化计算"><span class="toc-number">2.0.1.6.</span> <span class="toc-text">(6)、本地化计算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-、数据分布方式的选择"><span class="toc-number">2.0.1.7.</span> <span class="toc-text">(7)、数据分布方式的选择</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、基本副本协议"><span class="toc-number">2.0.2.</span> <span class="toc-text">2、基本副本协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-、中心化副本控制协议"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">(1)、中心化副本控制协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#primary-secondary协议"><span class="toc-number">2.0.2.1.1.</span> <span class="toc-text">primary-secondary协议</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-、数据更新流程"><span class="toc-number">2.0.2.1.2.</span> <span class="toc-text">[1]、数据更新流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-、数据读取方式"><span class="toc-number">2.0.2.1.3.</span> <span class="toc-text">[2]、数据读取方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-、primary副本的确定与切换"><span class="toc-number">2.0.2.1.4.</span> <span class="toc-text">[3]、primary副本的确定与切换</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
-  <div id="gitment-ctn"></div> 
-<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
-<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-  id: "http://yoursite.com/2018/04/11/distributed-system/",
-  owner: 'chengfengjie',
-  repo: 'chengfengjie.github.io',
-  oauth: {
-    client_id: '2c8d1dbe24f415229c48',
-    client_secret: 'ec7306b0dc57f1d579be682947222639acf37407',
-  },
-})
-gitment.render('gitment-ctn')
-</script>
-  
+    
 
 
           </div>
@@ -378,8 +201,8 @@ gitment.render('gitment-ctn')
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
