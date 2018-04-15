@@ -6,21 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>dubbo基本使用方式 | chengfengjie的技术点点滴滴</title>
+  <title>dubbo(一)、基本使用方式 | chengfengjie的技术点点滴滴</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Dubbo是阿里巴巴公司开源的一个高性能的服务框架，使得应用可以通过高性能的RPC实现服务的输入和输出功能，可以和spring框架无缝集成。本文会从dubbo的基本使用方式开始，一步一步的去发现问题和解决问题并最终在项目中使用dubbo开发分布式系统， 当垂直应用越来越多，应用之间的交互不可避免，将核心业务抽取出来，作为独立的服务，逐渐形成稳定的服务中心，使前端应用能够快速响应多变的市场需求，此时">
 <meta name="keywords" content="dubbo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dubbo基本使用方式">
+<meta property="og:title" content="dubbo(一)、基本使用方式">
 <meta property="og:url" content="http://yoursite.com/2017/06/12/dubbo/index.html">
 <meta property="og:site_name" content="chengfengjie的技术点点滴滴">
 <meta property="og:description" content="Dubbo是阿里巴巴公司开源的一个高性能的服务框架，使得应用可以通过高性能的RPC实现服务的输入和输出功能，可以和spring框架无缝集成。本文会从dubbo的基本使用方式开始，一步一步的去发现问题和解决问题并最终在项目中使用dubbo开发分布式系统， 当垂直应用越来越多，应用之间的交互不可避免，将核心业务抽取出来，作为独立的服务，逐渐形成稳定的服务中心，使前端应用能够快速响应多变的市场需求，此时">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://dubbo.apache.org/books/dubbo-user-book/sources/images/dubbo-architecture.jpg">
 <meta property="og:image" content="http://yoursite.com/resources/dubbo_1.png">
-<meta property="og:updated_time" content="2018-04-15T04:41:58.576Z">
+<meta property="og:updated_time" content="2018-04-15T05:04:25.493Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dubbo基本使用方式">
+<meta name="twitter:title" content="dubbo(一)、基本使用方式">
 <meta name="twitter:description" content="Dubbo是阿里巴巴公司开源的一个高性能的服务框架，使得应用可以通过高性能的RPC实现服务的输入和输出功能，可以和spring框架无缝集成。本文会从dubbo的基本使用方式开始，一步一步的去发现问题和解决问题并最终在项目中使用dubbo开发分布式系统， 当垂直应用越来越多，应用之间的交互不可避免，将核心业务抽取出来，作为独立的服务，逐渐形成稳定的服务中心，使前端应用能够快速响应多变的市场需求，此时">
 <meta name="twitter:image" content="http://dubbo.apache.org/books/dubbo-user-book/sources/images/dubbo-architecture.jpg">
   
@@ -147,7 +147,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      dubbo基本使用方式
+      dubbo(一)、基本使用方式
     </h1>
   
 
@@ -210,7 +210,7 @@
 </blockquote>
 <h2 id="2、基本配置"><a href="#2、基本配置" class="headerlink" title="2、基本配置"></a>2、基本配置</h2><p>在<code>application.properties</code>文件中配置dubbo相关的属性，所有的配置项在<code>io.dubbo.springboot.DubboProperties</code>类下面,这个配置类的源代码如下，可以一目了然的看到需要配置哪些参数:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@ConfigurationProperties(</span><br><span class="line">	// spring boot配置dubbo的前缀</span><br><span class="line">    prefix = &quot;spring.dubbo&quot;</span><br><span class="line">)</span><br><span class="line">public class DubboProperties &#123;</span><br><span class="line">	//配置需要扫描注解的包</span><br><span class="line">    private String scan;</span><br><span class="line">    //配置应用相关的，例如: 服务名称等等，可以点进去看</span><br><span class="line">    private ApplicationConfig application;</span><br><span class="line">    //配置注册中心相关的，如果配置多个注册中心，是在application属性里面配置</span><br><span class="line">    private RegistryConfig registry;</span><br><span class="line">    // 配置协议相关的</span><br><span class="line">    private ProtocolConfig protocol;</span><br><span class="line">    </span><br><span class="line">    ... 省略若干 ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>此处配置如下:</p>
+<p>服务提供方配置如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//配置扫描的包，dubbo会扫描此包下的dubbo相关的注解</span><br><span class="line">spring.dubbo.scan=huijinhang.business.impl</span><br><span class="line"></span><br><span class="line">// 配置协议名称，现在dubbo提供了多种协议供选择,dubbo, rmi, hessian, http, webservice, thrift, memcached, redis等</span><br><span class="line">spring.dubbo.protocol.name=dubbo</span><br><span class="line">spring.dubbo.protocol.host=127.0.0.1</span><br><span class="line">// 协议暴露的本地端口</span><br><span class="line">spring.dubbo.protocol.port=20882</span><br><span class="line"></span><br><span class="line">// 配置服务名称</span><br><span class="line">spring.dubbo.application.name=estate-service</span><br><span class="line">// 配置监控中心协议和地址，用于定时上报统计数据</span><br><span class="line">spring.dubbo.application.monitor.protocol=registry</span><br><span class="line">spring.dubbo.application.monitor.address=127.0.0.1:7070</span><br><span class="line">// 此处配置三个zookeeper的注册中心，如果只有一个注册中心，则通过registry配置</span><br><span class="line">spring.dubbo.application.registries[0].address=zookeeper://127.0.0.1:2181</span><br><span class="line">spring.dubbo.application.registries[1].address=zookeeper://127.0.0.1:2182</span><br><span class="line">spring.dubbo.application.registries[2].address=zookeeper://127.0.0.1:2183</span><br></pre></td></tr></table></figure>
 <h2 id="3、服务提供方注解配置"><a href="#3、服务提供方注解配置" class="headerlink" title="3、服务提供方注解配置"></a>3、服务提供方注解配置</h2><p>在实现类上面加上<code>@Service</code>注解完成服务的暴露</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Service(version = &quot;1.0.0&quot;, executes = 10)</span><br><span class="line">public class EstateAreaImpl implements EstateAreaApi &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;EstateAreaModel&gt; queryAllAreaList() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -222,6 +222,13 @@
 </blockquote>
 <h2 id="4、异常处理"><a href="#4、异常处理" class="headerlink" title="4、异常处理"></a>4、异常处理</h2><p><code>BeanCreationException</code>异常，如果提示实现类找不到,如<code>Error creating bean with name &#39;estateAreaImpl&#39; defined in file</code>，那在启动类上手动加上需要扫描的包，代码如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@ComponentScan(basePackages = &#123;&quot;huijinhang.business.impl&quot;, &quot;huijinhang.business.service&quot;&#125;)</span><br><span class="line">public class EstateServiceApplication &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(EstateServiceApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5、服务消费方基本配置"><a href="#5、服务消费方基本配置" class="headerlink" title="5、服务消费方基本配置"></a>5、服务消费方基本配置</h2><h3 id="1-、配置properties"><a href="#1-、配置properties" class="headerlink" title="(1)、配置properties"></a>(1)、配置properties</h3><p>配置<code>application.properties</code>文件如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring.dubbo.application.name=huijinhang-backend</span><br><span class="line">spring.dubbo.application.registries[0].address=zookeeper://127.0.0.1:2181</span><br><span class="line">spring.dubbo.application.registries[1].address=zookeeper://127.0.0.1:2182</span><br><span class="line">spring.dubbo.application.registries[2].address=zookeeper://127.0.0.1:2183</span><br><span class="line">spring.dubbo.scan=huijinhang.backend.controller</span><br><span class="line"></span><br><span class="line">spring.dubbo.application.monitor.protocol=registry</span><br><span class="line">spring.dubbo.application.monitor.address=127.0.0.1:7070</span><br></pre></td></tr></table></figure>
+<h3 id="2-、注解使用"><a href="#2-、注解使用" class="headerlink" title="(2)、注解使用"></a>(2)、注解使用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/estate/area&quot;)</span><br><span class="line">public class EstateAreaController &#123;</span><br><span class="line"></span><br><span class="line">    @Reference(version = &quot;1.0.0&quot;)</span><br><span class="line">    private EstateAreaApi estateAreaApi;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/queryAll&quot;)</span><br><span class="line">    public ResponseDto getAllEstateArea() &#123;</span><br><span class="line">        List list = estateAreaApi.queryAllAreaList();</span><br><span class="line">        return ResponseDto.data(list);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>@Reference的参数很多，可参考: <a href="http://dubbo.apache.org/books/dubbo-user-book/references/xml/dubbo-reference.html" target="_blank" rel="noopener">dubbo reference</a></p>
+</blockquote>
+<p>完成配置之后启动项目调用api就可以得到服务提供方的结果了</p>
 
       
 
@@ -330,6 +337,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Dubbo架构"><span class="toc-number">1.</span> <span class="toc-text">一、Dubbo架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#调用关系"><span class="toc-number">1.1.</span> <span class="toc-text">调用关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、安装注册中心（Registry）"><span class="toc-number">2.</span> <span class="toc-text">二、安装注册中心（Registry）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、配置"><span class="toc-number">2.1.</span> <span class="toc-text">1、配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、操作命令"><span class="toc-number">2.2.</span> <span class="toc-text">2、操作命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3、一台机器伪集群配置"><span class="toc-number">2.2.1.</span> <span class="toc-text">3、一台机器伪集群配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、安装监控中心-Monitor"><span class="toc-number">3.</span> <span class="toc-text">二、安装监控中心(Monitor)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、简单配置"><span class="toc-number">3.1.</span> <span class="toc-text">1、简单配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、基本操作"><span class="toc-number">3.2.</span> <span class="toc-text">2、基本操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、Dubbo管理控制台"><span class="toc-number">4.</span> <span class="toc-text">三、Dubbo管理控制台</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、配置多注册中心"><span class="toc-number">4.1.</span> <span class="toc-text">1、配置多注册中心</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、基于spring-boot的集成Dubbo"><span class="toc-number">5.</span> <span class="toc-text">四、基于spring-boot的集成Dubbo</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、maven添加服务依赖"><span class="toc-number">5.1.</span> <span class="toc-text">1、maven添加服务依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、基本配置"><span class="toc-number">5.2.</span> <span class="toc-text">2、基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、服务提供方注解配置"><span class="toc-number">5.3.</span> <span class="toc-text">3、服务提供方注解配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、异常处理"><span class="toc-number">5.4.</span> <span class="toc-text">4、异常处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、服务消费方基本配置"><span class="toc-number">5.5.</span> <span class="toc-text">5、服务消费方基本配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-、配置properties"><span class="toc-number">5.5.1.</span> <span class="toc-text">(1)、配置properties</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-、注解使用"><span class="toc-number">5.5.2.</span> <span class="toc-text">(2)、注解使用</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -446,10 +466,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
-              </li>
-            
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
             
               <li class="article-tag-list-item">
