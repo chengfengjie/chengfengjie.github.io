@@ -61,6 +61,8 @@
 			
 				<li><a href="/">首页</a></li>
 	        
+				<li><a href="/spring">spring揭秘</a></li>
+	        
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -107,6 +109,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -121,7 +125,9 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 100%"><a href="/">首页</a></li>
+					<li style="width: 50%"><a href="/">首页</a></li>
+		        
+					<li style="width: 50%"><a href="/spring">spring揭秘</a></li>
 		        
 				</ul>
 			</nav>
@@ -137,6 +143,87 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-mysql-lock" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/22/mysql-lock/">Mysql的锁问题</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/22/mysql-lock/" class="archive-article-date">
+  	<time datetime="2018-05-22T11:59:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MySQL的锁机制比较简单，不同的存储引擎支持不同的锁机制。MyISAM和MEMORY存储引擎采用的是表级锁，BDB存储引擎采用的是页面锁，也支持表级锁。InnoDB存储引擎既支持行级锁，也支持表级锁。<br>MySQL的3种锁的特性归纳如下:</p>
+<ul>
+<li>表级锁: 开销小，加锁快，不会出现死锁，锁定粒度大，发生锁冲突的概率高，并发度低。</li>
+<li>行级锁: 开销大，加锁慢，会出现死锁，锁定粒度小，发生锁冲突的概率最低，并发度也最高。</li>
+<li>页面锁: 开销和加锁时间界于表锁和行锁之间；会出现死锁，锁定粒度界于表锁和行锁之间，并发度一般。</li>
+</ul>
+        
+          <a class="article-more-a" href="/2018/05/22/mysql-lock/#more">更多 >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Mysql</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/22/mysql-lock/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-distributed-system" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -215,6 +302,154 @@
 
 
   
+    <article id="post-spring-transaction" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/20/spring-transaction/">Spring进行事务管理</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/20/spring-transaction/" class="archive-article-date">
+  	<time datetime="2017-11-20T01:19:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Spring的事务框架设计理念的基本原则是:让事务管理的关注点和数据访问关注点分离。</p>
+<p>Spring的事务抽象包括如下3个主要接口:</p>
+<ul>
+<li><code>PlatformTransactionManager</code></li>
+<li><code>TransactionDefinition</code></li>
+<li><code>TransactionStatus</code></li>
+</ul>
+        
+          <a class="article-more-a" href="/2017/11/20/spring-transaction/#more">更多 >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">事务</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/20/spring-transaction/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-zookeeper" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/18/zookeeper/">zookeeper</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/18/zookeeper/" class="archive-article-date">
+  	<time datetime="2017-06-18T11:43:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考链接: <a href="https://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/" target="_blank" rel="noopener">分布式服务框架zookeeper</a></p>
+<p>Apache Zookeeper是Apache软件基金会的一个软件项目，它为大型分布式计算提供开源的分布式配置服务、同步服务和命名注册，zookeeper曾经是Hadoop的一个子项目，但现在是一个独立的顶级项目。<br>Zookeeper的架构通过冗余服务实现高可用行，因此，如果第一次无应答，客户端就可以询问另一台Zookeeper主机。Zookeeper节点将他们的数据存储于一个分层的命名空间，非常类似于一个文件系统或一个前缀树结构。客户端可以在节点读写，从而以这种方式拥有一个共享的配置服务。<br>网络上讲解zookeeper的文章很多，此处记录一下学习记录。</p>
+        
+          <a class="article-more-a" href="/2017/06/18/zookeeper/#more">更多 >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/18/zookeeper/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dubbo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -263,6 +498,138 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/06/12/dubbo/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-spring-core" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/23/spring-core/">spring-core</a>
+    </h1>
+  
+
+        
+        <a href="/2017/04/23/spring-core/" class="archive-article-date">
+  	<time datetime="2017-04-23T01:24:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>spring 是一个开源框架，为了解决企业应用程序开发复杂性而创建的。框架的主要优势就是其分层架构，分层架构允许你选择使用特定的功能组件。spring分层如下:</p>
+<p><img src="https://img-blog.csdn.net/20170606015356718?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvVGlkaHk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="spring家族"></p>
+        
+          <a class="article-more-a" href="/2017/04/23/spring-core/#more">更多 >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/04/23/spring-core/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-java-collection" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/17/java-collection/">Java集合类解析</a>
+    </h1>
+  
+
+        
+        <a href="/2016/09/17/java-collection/" class="archive-article-date">
+  	<time datetime="2016-09-17T11:01:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-09-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java集合工具包位于<code>java.util</code>包下面，包含了很多常用的数据结构，如: 数组、栈、队列、集合、哈希表等。集合框架大致可以分为五个部分: List列表，Set集合，Map映射，迭代器(Iterator、Enumeration)、工具类(Arrays、Collections)等。</p>
+<p>下面从一些常用的集合类开始，步步为营的去总结一下集合框架，加深理解。</p>
+        
+          <a class="article-more-a" href="/2016/09/17/java-collection/#more">更多 >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/09/17/java-collection/">展开全文 >></a>
         </p>
       
 
@@ -377,11 +744,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
             
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
+              </li>
+            
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
             
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
+              </li>
+            
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">事务</a>
               </li>
             
             <div class="clearfix"></div>
@@ -434,6 +809,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           
             <li class="search-li">
               <a href="https://luuman.github.io/2015/12/27/Hexo/Hexo/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Hexo使用指南</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://www.processon.com" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>processon在线绘图工具</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://dbaplus.cn/news-141-1175-1.html" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>分布式事务演进文章</a>
             </li>
           
         </ul>

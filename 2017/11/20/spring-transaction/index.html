@@ -6,23 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>分布式系统原理 | chengfengjie的技术点点滴滴</title>
+  <title>Spring进行事务管理 | chengfengjie的技术点点滴滴</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。 开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。">
-<meta name="keywords" content="分布式">
+  <meta name="description" content="Spring的事务框架设计理念的基本原则是:让事务管理的关注点和数据访问关注点分离。 Spring的事务抽象包括如下3个主要接口:  PlatformTransactionManager TransactionDefinition TransactionStatus">
+<meta name="keywords" content="事务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式系统原理">
-<meta property="og:url" content="http://yoursite.com/2018/04/11/distributed-system/index.html">
+<meta property="og:title" content="Spring进行事务管理">
+<meta property="og:url" content="http://yoursite.com/2017/11/20/spring-transaction/index.html">
 <meta property="og:site_name" content="chengfengjie的技术点点滴滴">
-<meta property="og:description" content="最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。 开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。">
+<meta property="og:description" content="Spring的事务框架设计理念的基本原则是:让事务管理的关注点和数据访问关注点分离。 Spring的事务抽象包括如下3个主要接口:  PlatformTransactionManager TransactionDefinition TransactionStatus">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/resources/distributed-system-1.png">
-<meta property="og:image" content="http://yoursite.com/resources/distributed-system-2.png">
-<meta property="og:updated_time" content="2018-04-12T12:05:05.885Z">
+<meta property="og:updated_time" content="2018-05-21T11:12:27.201Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分布式系统原理">
-<meta name="twitter:description" content="最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。 开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。">
-<meta name="twitter:image" content="http://yoursite.com/resources/distributed-system-1.png">
+<meta name="twitter:title" content="Spring进行事务管理">
+<meta name="twitter:description" content="Spring的事务框架设计理念的基本原则是:让事务管理的关注点和数据访问关注点分离。 Spring的事务抽象包括如下3个主要接口:  PlatformTransactionManager TransactionDefinition TransactionStatus">
   
     <link rel="alternative" href="/atom.xml" title="chengfengjie的技术点点滴滴" type="application/atom+xml">
   
@@ -146,75 +143,84 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-distributed-system" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-spring-transaction" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      分布式系统原理
+      Spring进行事务管理
     </h1>
   
 
         
-        <a href="/2018/04/11/distributed-system/" class="archive-article-date">
-  	<time datetime="2018-04-11T15:42:18.098Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
+        <a href="/2017/11/20/spring-transaction/" class="archive-article-date">
+  	<time datetime="2017-11-20T01:19:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近在找java服务器端的工作，面试了一些公司，很多面试官都会问到分布式相关的问题，在理论方面功底还是有所欠缺，在此从理论上学习一下并记录笔记。</p>
-<p>开始学习分布式系统，主要是通过《分布式系统原理》这本书，发现很有意思，在此记录一下学习笔记。</p>
+        <p>Spring的事务框架设计理念的基本原则是:让事务管理的关注点和数据访问关注点分离。</p>
+<p>Spring的事务抽象包括如下3个主要接口:</p>
+<ul>
+<li><code>PlatformTransactionManager</code></li>
+<li><code>TransactionDefinition</code></li>
+<li><code>TransactionStatus</code></li>
+</ul>
 <a id="more"></a>
-<h1 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h1><h3 id="1、节点"><a href="#1、节点" class="headerlink" title="1、节点"></a>1、节点</h3><p>节点是指一个独立按照分布式协议完成一组逻辑的程序个体。一般是运行在一台机器上的一个程序，一般认为节点是一个完整的、不可分割的整体。</p>
-<h3 id="2、通信"><a href="#2、通信" class="headerlink" title="2、通信"></a>2、通信</h3><p>节点与节点之间是完全独立的、相互隔离的，节点之间传递信息的唯一方式是通过不可靠的网络进行通信，即一个节点可以向其他节点通过网络发送信息，但发送信息的节点无法确认消息是否被接收节点完整正确收到</p>
-<h3 id="3、存储"><a href="#3、存储" class="headerlink" title="3、存储"></a>3、存储</h3><p>节点可以通过将数据写入与节点在同一台机器的本地存储设备保存数据。通常的存储设备有磁盘、SSD等。存储、读取数据的节点称为有状态的节点，反之是无状态的节点。如果某个节点A存储数据的方式是将数据通过网络发送到另一个节点B，由节点B负责将数据存储到节点B的本地存储设备，那么A不是有状态节点，只有B是无状态节点。</p>
-<h3 id="4、异常"><a href="#4、异常" class="headerlink" title="4、异常"></a>4、异常</h3><p>分布式系统的核心问题之一就是处理各种异常(failure)情况，异常情况包括以下内容:</p>
-<h4 id="（1）机器宕机"><a href="#（1）机器宕机" class="headerlink" title="（1）机器宕机"></a>（1）机器宕机</h4><p>机器宕机是最常见的异常之一。在大型集群中每日发生宕机的概率为千分之一左右。宕机造成的后果通常为该机器上节点不能正常工作。架设节点的工作流程是三个独立原子的步骤，宕机造成的后果是节点可能在处理某个步骤后不再继续处理后续步骤，从而造成某些协议路程无法完成。<br>当发生宕机时，节点无法正常工作，称为“不可用”(unabailable)状态。</p>
-<h4 id="（2）网络异常"><a href="#（2）网络异常" class="headerlink" title="（2）网络异常"></a>（2）网络异常</h4><p>网络异常是另一类常见的异常形式，节点之间通过不可靠的网络进行通信。网络异常如下:</p>
+<h3 id="1、TransactionDefinition"><a href="#1、TransactionDefinition" class="headerlink" title="1、TransactionDefinition"></a>1、TransactionDefinition</h3><p><code>TransactionDefinition</code>主要定义了事务的属性，包括</p>
 <ul>
-<li><p>消息丢失</p>
-</li>
-<li><p>消息乱序</p>
-</li>
-<li><p>数据错误</p>
-</li>
-<li><p>不可靠的TCP</p>
-</li>
+<li>事务的隔离(Isolation)级别</li>
+<li>事务的传播行为(Propagation Behavior)</li>
+<li>事务的超时时间(Timeout)</li>
+<li>是否为只读(ReadOnly)事务</li>
 </ul>
-<h1 id="二、分布式系统原理"><a href="#二、分布式系统原理" class="headerlink" title="二、分布式系统原理"></a>二、分布式系统原理</h1><h3 id="1、数据分布方式"><a href="#1、数据分布方式" class="headerlink" title="1、数据分布方式"></a>1、数据分布方式</h3><p>所谓分布式系统顾名思义就是利用多台计算机协同解决单台计算机不能解决的计算、存储等问题。单机系统和分布式系统的最大区别在于问题的规模，即计算、存储的数据量的区别。将单机问题使用分布式解决，首先要解决就是如何将问题拆解为可以使用多机多机分布式解决，使得分布式系统中的每台机器负责原问题的一个子集。由于无论是计算还是存储，其问题输入对象都是数据，所以如何拆解分布式系统的输入数据成为分布式系统的基本问题。拆分如下:</p>
-<h4 id="1-、哈希方式"><a href="#1-、哈希方式" class="headerlink" title="(1)、哈希方式"></a>(1)、哈希方式</h4><h4 id="2-、按数据范围分布"><a href="#2-、按数据范围分布" class="headerlink" title="(2)、按数据范围分布"></a>(2)、按数据范围分布</h4><h4 id="3-、按数据量分布"><a href="#3-、按数据量分布" class="headerlink" title="(3)、按数据量分布"></a>(3)、按数据量分布</h4><h4 id="4-、一致性哈希"><a href="#4-、一致性哈希" class="headerlink" title="(4)、一致性哈希"></a>(4)、一致性哈希</h4><h4 id="5-、副本与数据分布"><a href="#5-、副本与数据分布" class="headerlink" title="(5)、副本与数据分布"></a>(5)、副本与数据分布</h4><h4 id="6-、本地化计算"><a href="#6-、本地化计算" class="headerlink" title="(6)、本地化计算"></a>(6)、本地化计算</h4><h4 id="7-、数据分布方式的选择"><a href="#7-、数据分布方式的选择" class="headerlink" title="(7)、数据分布方式的选择"></a>(7)、数据分布方式的选择</h4><h3 id="2、基本副本协议"><a href="#2、基本副本协议" class="headerlink" title="2、基本副本协议"></a>2、基本副本协议</h3><p>副本控制协议指按特定的协议流程控制副本数据的读写行为，使得副本满足一定的可用性和一致性要求的分布式协议。副本控制协议要具有一定的对抗异常状态的容错能力，从而使得系统具有一定的可用性，同时副本控制协议要能提供一定的一致性。由CAP原理可知，要设计一种满足强一致性，且在出现任何网络异常时都可用的副本协议是不可能的。为此，实际中的副本控制协议总是在可用性、一致性与性能等各要素之间按照具体需求折中。</p>
-<p>控制协议分为两大类: “中心化副本控制协议”和”去中心化副本控制协议”</p>
-<h4 id="1-、中心化副本控制协议"><a href="#1-、中心化副本控制协议" class="headerlink" title="(1)、中心化副本控制协议"></a>(1)、中心化副本控制协议</h4><p>中心化副本控制协议的基本思路是由一个中心节点协调副本数据的更新、维护副本之间的一致性。下图为中心化副本协议的通用架构。</p>
-<p><img src="/resources/distributed-system-1.png" alt="中心化副本控制协议"></p>
+<p><code>TransactionDefinition</code>内定义了5个常量用于标识可以提供的隔离级别</p>
 <ul>
-<li>优点: 协议相对较简单，所有副本相关的控制交由中心节点完成。并发控制由中心节点完成，从而使得一个分布式并发控制问题简化为一个单击并发控制问题。</li>
+<li><code>ISOLATION_DEFAULT</code>: 表示数据库的默认隔离级别，通常情况下是Read Committed</li>
+<li><code>ISOLATION_READ_UNCOMMITTED</code>: 对应Read Uncommittd隔离级别，无法避免脏读，不可重复读和幻读</li>
+<li><code>ISOLATION_READ_COMMITTED</code>: 对应Read Committed隔离级别，避免脏读，但是无法避免不可重复读和幻读</li>
+<li><code>ISOLATION_REPEATABLE_READ</code>: 对应Repeatable Read隔离级别，可以避免脏读和不可重复读，但是不能避免幻读。</li>
+<li><code>ISOLATION_SERIALIZABLE</code>: 对应Seriablizable隔离级别，可以避免所有的脏读，不可重复读和幻读，但是并发效率较低</li>
 </ul>
-<blockquote>
-<p>并发控制: 多个节点需要同时修改副本数据时，需要解决“写写”、“读写”等并发冲突。单击系统上常用加锁等方式进行并发控制，对于分布式并发控制，加锁也是常用的方法，但是如果没有中心节点进行锁管理，就需要完全分布式化的锁系统，会使协议非常复杂。</p>
-</blockquote>
+<p>事务的传播行为表示整个事务处理过程所跨越的业务对象，将以什么样的行为参与事务(我们将在声明式事务中更多地依赖该属性)，比如，当有FoobarService调用FooService和BarService两个方法的时候，FooService的业务方法和BarService的业务方法可以指定各自的事务传播行为。<br>FooService的业务方法的传播行为被我们指定为Required，表示如果当前存在事务的话，则加入当前事务，因为FoobarService在调用FooService的业务方法的时候已经启动了一个事务，所以，FooService的业务方法会直接加入FoobarService启动的事务中，BarService的业务方法的传播行为被指定为RequiredNew，表示无论当前是否存在事务，都需要重新启动一个新的事务，所以，它使用的是自己启动的事务。<br>针对事务的传播行为，<code>TransactionDefinition</code>提供了以下几种选择:</p>
 <ul>
-<li>缺点: 系统的可用性依赖于中心化节点，当中心节点异常或与中心节点通信中断时，系统将失去某些服务，所以中心化副本控制协议的缺点正式存在一定的服务停止时间</li>
+<li><code>PROPAGATION_REQUIRED</code>:如果当前存在事务，则加入当前事务。如果不存在任何事务，则创建一个新的事务，总之，要至少保证在一个事务中运行。<code>PROPAGATION_REQUIRED</code>通常作为默认的事务传播行为</li>
+<li><code>PROPAGATION_SUPPORTS</code>:如果当前存在一个事务，则加入当前事务。如果当前不存在事务，则直接执行。对于一些查询方法来说，<code>PROPAGATION_SUPPORTS</code>通常是比较合适的传播行为选择。如果当前方法直接执行，那么不需要事务的支持。如果当前方法被其他方法调用，而其他方法启动了一个事务，可以保证<code>PROPAGATION_SUPPORTS</code>当前方法能够加入当前事务，并洞察当前事务对数据资源所做的更新。例如: A.service()会首先更新数据库，然后调用B.service()进行查询，那么，如果B.service()是<code>PROPAGATION_SUPPORTS</code>的传播行为，就可以读取A.service()之前所做的更新结果。</li>
+<li><code>PROPAGATION_MANDATORY</code>: <code>PROPAGATION_MANDATORY</code>强制要求当前存在一个事务，如果不存在，则抛出异常。如果某个方法需要事务支持，但自身又不管理事务提交和回滚，那么比较适合使用<code>PROPAGATION_MANDATORY</code></li>
+<li><code>PROPAGATION_REQUIRES_NEW</code>: 不管当前是否存在事务，都会创建新的事务，如果当前存在事务，则会将当前事务挂起(Suspend)。如果某个业务对象所做的事情不想影响到外层的事务，<code>PROPAGATION_REQUIRES_NEW</code>应该是最佳的选择。比如，假设当前的业务方法需要向数据库更新某些日志信息，即时日志信息更新失败，我们也不想因为该业务方法的事务回滚，而影响到外层事务的成功提交。因为这种情况下，当前业务方法的事务成功与否对外城事务来说是无关紧要的。</li>
+<li><code>PROPAGATION_NOT_SUPPORTED</code>: 不支持当前事务，而是在没有事务的情况下执行。如果当前存在事务，则挂起事务(Suspend),但是这要看PlatformTransactionManager实现类是否支持事务的挂起。</li>
+<li><code>PROPAGATION_NEVER</code>: 永远不需要当前存在事务，如果存在事务，则抛出异常。</li>
+<li><code>PROPAGATION_NESTED</code>: 如果存在事务，则在当前事务的一个嵌套事务中执行，否则与<code>PROPAGATION_REQUIRED</code>类似，创建新的事务。</li>
 </ul>
-<h5 id="primary-secondary协议"><a href="#primary-secondary协议" class="headerlink" title="primary-secondary协议"></a>primary-secondary协议</h5><p>primary-secondary协议是一种中心化副本控制协议，在primary-secondary协议中，副本被分为两大类，其中有且仅有一个副本作为primary副本，其他的都是secondary副本，维护副本的节点作为中心节点，中心节点负责维护数据的更新、并发控制、协调副本的一致性。<br>primary-secondary协议主要解决四大问题:</p>
+<p><code>TransactionDefinition</code>只是一个接口定义，要为<code>PlatformTransactionManager</code>创建事务提供信息，需要由相应的实现类提供支持。<br>我们将<code>TransactionDefinition</code>的相关实现类按照编程式事务场景和声明式事务长青划分为两个分支。<br><code>DefaultTransactionDefinition</code>是<code>TransactionDefinition</code>接口的默认实现类，他提供了各种事务属性的默认值，并且通过他的setter方法，可以更改这些默认设置。这些默认值包括</p>
 <ul>
-<li>数据更新流程</li>
-<li>数据读取方式</li>
-<li>Primary副本的确定和切换</li>
-<li>数据同步</li>
+<li><code>propagationBehavior = PROPAGATION_REQUIRED</code></li>
+<li><code>isolationLevel = ISOLATION_DEFAULT</code></li>
+<li><code>timeout = TIMEOUT_DEFAULT</code></li>
+<li><code>readOnly = false</code></li>
 </ul>
-<h5 id="1-、数据更新流程"><a href="#1-、数据更新流程" class="headerlink" title="[1]、数据更新流程"></a>[1]、数据更新流程</h5><p>1)、数据更新都由primary节点协调完成<br>2)、外部节点将更新操作发送给primary节点<br>3)、primary节点进行并发控制即确定并发更新操作的先后顺序<br>4)、primary节点将更新操作发送给secondary节点<br>5)、primary更具secondary节点的完成情况决定更新是否成功并将结果返回给外部节点  </p>
-<p><img src="/resources/distributed-system-2.png" alt="中心化副本控制协议数据更新流程"></p>
-<h5 id="2-、数据读取方式"><a href="#2-、数据读取方式" class="headerlink" title="[2]、数据读取方式"></a>[2]、数据读取方式</h5><p>数据读取方式是primary-secondary类协议需要解决的第二个问题。与数据更新流程类似，读取方式也与一致性高度相关。如果只需要最终一致性，则读取任何副本都可以满足需求。如果需要会话一致性，则可以为副本设置版本号，每次更新后递增版本号，用户读取副本时验证版本号，从而保证用户读到的数据在会话范围内单调递增，使primary-secondary比较困难是实现强一致性。<br>以下是实现primary-secondary实现强一致性的几种思路:</p>
+<p><code>TransactionTemplate</code>是Spring提供的进行编程式事务管理的模板方法类，他直接继承自<code>DefaultTransactionDefinition</code>，所以我们使用<code>TransactionTemplate</code>的时候就可以直接通过<code>TransactionTemplate</code>本身提供事务控制属性。</p>
+<p><code>TransactionAttribute</code>是继承自<code>TransactionDefinition</code>的接口定义，主要面向Spring AOP进行声明式事务管理的场合。他在<code>TransactionDefinition</code>定义的基础上添加了一个<code>rollbackOn</code>方法。可以通过声明的方式指定业务方法在抛出那些异常的情况下回滚事务。<br><code>TransactionAttribute</code>的默认实现类时<code>DefaultTransactionAttribute</code>，同时继承<code>DefaultTransactionDefinition</code>。</p>
+<h3 id="2、TransactionStatus介绍"><a href="#2、TransactionStatus介绍" class="headerlink" title="2、TransactionStatus介绍"></a>2、TransactionStatus介绍</h3><p><code>TransactionStatus</code>接口定义表示整个事务处理过程中的事务状态。在事务处理过程中，我们可以使用<code>TransactionStatus</code>进行如下工作。</p>
 <ul>
-<li>由于数据更新流程都是primary控制的，primary副本上的数据一定是最新的，所以如果始终只读primary副本的数据，可以实现强一致性。</li>
-<li>由primary控制节点secondary节点的可用性。当primary更新某个secondary副本不成功时，primary将该secondary副本标记为不可用，从而用户不在读取该不可用的副本，不可用的secondary副本可以继续尝试与primary同步数据，同步成功后，标记为可用。</li>
-<li>基于Quorum机制</li>
+<li>使用<code>TransactionStatus</code>提供的相应方法查询事务状态。</li>
+<li>使用<code>setRollbackOnly()</code>方法标记当前事务以使其回滚。</li>
+<li>如果相应的<code>PlatformTransactionManager</code>支持Savepoint，可以通过<code>TransactionStatus</code>在当前事务中创建内部嵌套事务。</li>
 </ul>
-<h5 id="3-、primary副本的确定与切换"><a href="#3-、primary副本的确定与切换" class="headerlink" title="[3]、primary副本的确定与切换"></a>[3]、primary副本的确定与切换</h5>
+<h3 id="3、PlatformTransactionManager介绍"><a href="#3、PlatformTransactionManager介绍" class="headerlink" title="3、PlatformTransactionManager介绍"></a>3、PlatformTransactionManager介绍</h3><p><code>org.springframework.transaction.PlatformTransactionManager</code>是Spring事务抽象架构的核心接口，他的主要作用是为应用程序提供事务界定的统一方式。接口定义如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public interface PlatformTransactionManager &#123;</span><br><span class="line">    TransactionStatus getTransaction(@Nullable TransactionDefinition var1) throws TransactionException;</span><br><span class="line"></span><br><span class="line">    void commit(TransactionStatus var1) throws TransactionException;</span><br><span class="line"></span><br><span class="line">    void rollback(TransactionStatus var1) throws TransactionException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Spring的事务框架针对不同的数据访问方式以及全局事务场景，提供了相应的<code>PlatformTransactionManager</code>的实现类，例如针对JDBC/iBatis的<code>DataSourceTransactionManager</code>。</p>
+<p>对于层次划分清晰的应用来说，我们通常都是将事务管理放在Service层，而将数据访问层放在DAO层，这样做的目的是可以不用因为事务管理代码放在DAO层而降低数据访问逻辑的重用性。也可以在service层根据应用逻辑，来决定提交或者回滚事务，一般的service对象可能需要在同一个业务方法中调用多个数据访问的方法。</p>
+<p>事务管理的实施通常有两种方式，即编程式事务管理和声明方式事务管理。对于这两种事务管理方式，Spring事务框架可以说是青出于蓝而胜于蓝。</p>
+<h1 id="一、编程式事务管理"><a href="#一、编程式事务管理" class="headerlink" title="一、编程式事务管理"></a>一、编程式事务管理</h1><p>通过Spring进行编程式事务管理有两种方式，要么直接使用<code>PlatformTransactionManager</code>，要么使用更方便的<code>TransactionTemplate</code>,二者各有优点，但是总体上来说，推荐使用<code>TransactionTemplate</code>进行编程时事务管理。</p>
+<h2 id="1、直接使用PlatformTransactionManager进行编程式事务管理"><a href="#1、直接使用PlatformTransactionManager进行编程式事务管理" class="headerlink" title="1、直接使用PlatformTransactionManager进行编程式事务管理"></a>1、直接使用<code>PlatformTransactionManager</code>进行编程式事务管理</h2><p><code>PlatformTransactionManager</code>接口定义了事务界定的基本操作，我们可以直接使用<code>PlatformTransactionManager</code>进行编程式事务管理。一般不会自己实现<code>PlatformTransactionManager</code>接口，可以使用<code>Spring</code>为我们提供的实现类，用<code>DataSourceTransactionManager</code>实现类代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public DataSource getDataSource() &#123;</span><br><span class="line">    MysqlDataSource dataSource = new MysqlDataSource();</span><br><span class="line">    dataSource.setURL(dataSourceUrl);</span><br><span class="line">    dataSource.setUser(user);</span><br><span class="line">    dataSource.setPassword(password);</span><br><span class="line">    return dataSource;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void doAction() &#123;</span><br><span class="line"></span><br><span class="line">    DataSource dataSource = getDataSource();</span><br><span class="line">    DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);</span><br><span class="line"></span><br><span class="line">    DefaultTransactionDefinition definition = new DefaultTransactionDefinition();</span><br><span class="line">    definition.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);</span><br><span class="line"></span><br><span class="line">    TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(definition);</span><br><span class="line">    </span><br><span class="line">    JdbcTemplate template = new JdbcTemplate(dataSource);</span><br><span class="line">    </span><br><span class="line">    template.execute(&quot;INSERT INTO `user`(nickname, password, first_name, last_name) VALUES (&apos;李静&apos;, &apos;123&apos;, &apos;李&apos;, &apos;静&apos;)&quot;);</span><br><span class="line"></span><br><span class="line">    dataSourceTransactionManager.commit(transactionStatus);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2、使用TransactionTemplate进行编程式事务管理"><a href="#2、使用TransactionTemplate进行编程式事务管理" class="headerlink" title="2、使用TransactionTemplate进行编程式事务管理"></a>2、使用TransactionTemplate进行编程式事务管理</h2><p><code>TransactionTemplate</code>对与<code>PlatformTransactionManager</code>相关事务界定操作以及相关的异常处理进行了模块化封装，开发人员更多地关注于通过响应的Callback接口提供具体的事务界定内容即可。Spring针对<code>TransactionTemplate</code>提供了两个Callback接口,<code>TransactionCallback</code>和<code>TransactionCallbackWithoutResult</code>,二者的区别是是否需要返回执行结果。</p>
+<h1 id="二、声明式事务管理"><a href="#二、声明式事务管理" class="headerlink" title="二、声明式事务管理"></a>二、声明式事务管理</h1>
       
 
       
@@ -227,7 +233,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">事务</a>
         		</li>
       		
 		</ul>
@@ -283,7 +289,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/04/11/distributed-system/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/11/20/spring-transaction/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -297,18 +303,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/05/22/mysql-lock/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/11/distributed-system/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Mysql的锁问题
+          分布式系统原理
         
       </div>
     </a>
   
   
-    <a href="/2017/11/20/spring-transaction/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Spring进行事务管理</div>
+    <a href="/2017/06/18/zookeeper/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">zookeeper</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -327,19 +333,6 @@
             </div>
         </div>
         
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、基本概念"><span class="toc-number">1.</span> <span class="toc-text">一、基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、节点"><span class="toc-number">1.0.1.</span> <span class="toc-text">1、节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、通信"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、存储"><span class="toc-number">1.0.3.</span> <span class="toc-text">3、存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、异常"><span class="toc-number">1.0.4.</span> <span class="toc-text">4、异常</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（1）机器宕机"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">（1）机器宕机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（2）网络异常"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">（2）网络异常</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、分布式系统原理"><span class="toc-number">2.</span> <span class="toc-text">二、分布式系统原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、数据分布方式"><span class="toc-number">2.0.1.</span> <span class="toc-text">1、数据分布方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-、哈希方式"><span class="toc-number">2.0.1.1.</span> <span class="toc-text">(1)、哈希方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-、按数据范围分布"><span class="toc-number">2.0.1.2.</span> <span class="toc-text">(2)、按数据范围分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-、按数据量分布"><span class="toc-number">2.0.1.3.</span> <span class="toc-text">(3)、按数据量分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-、一致性哈希"><span class="toc-number">2.0.1.4.</span> <span class="toc-text">(4)、一致性哈希</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-、副本与数据分布"><span class="toc-number">2.0.1.5.</span> <span class="toc-text">(5)、副本与数据分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-、本地化计算"><span class="toc-number">2.0.1.6.</span> <span class="toc-text">(6)、本地化计算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-、数据分布方式的选择"><span class="toc-number">2.0.1.7.</span> <span class="toc-text">(7)、数据分布方式的选择</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、基本副本协议"><span class="toc-number">2.0.2.</span> <span class="toc-text">2、基本副本协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-、中心化副本控制协议"><span class="toc-number">2.0.2.1.</span> <span class="toc-text">(1)、中心化副本控制协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#primary-secondary协议"><span class="toc-number">2.0.2.1.1.</span> <span class="toc-text">primary-secondary协议</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-、数据更新流程"><span class="toc-number">2.0.2.1.2.</span> <span class="toc-text">[1]、数据更新流程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-、数据读取方式"><span class="toc-number">2.0.2.1.3.</span> <span class="toc-text">[2]、数据读取方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-、primary副本的确定与切换"><span class="toc-number">2.0.2.1.4.</span> <span class="toc-text">[3]、primary副本的确定与切换</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
         
     </div>
 </aside>
@@ -360,7 +353,7 @@
 <script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: "http://yoursite.com/2018/04/11/distributed-system/",
+  id: "http://yoursite.com/2017/11/20/spring-transaction/",
   owner: 'chengfengjie',
   repo: 'chengfengjie.github.io',
   oauth: {
