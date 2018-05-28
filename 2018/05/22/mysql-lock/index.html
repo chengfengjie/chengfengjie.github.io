@@ -17,7 +17,7 @@
 <meta property="og:description" content="MySQL的锁机制比较简单，不同的存储引擎支持不同的锁机制。MyISAM和MEMORY存储引擎采用的是表级锁，BDB存储引擎采用的是页面锁，也支持表级锁。InnoDB存储引擎既支持行级锁，也支持表级锁。MySQL的3种锁的特性归纳如下:  表级锁: 开销小，加锁快，不会出现死锁，锁定粒度大，发生锁冲突的概率高，并发度低。 行级锁: 开销大，加锁慢，会出现死锁，锁定粒度小，发生锁冲突的概率最低，并发">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/resources/mysql_lock_1.png">
-<meta property="og:updated_time" content="2018-05-23T14:42:38.183Z">
+<meta property="og:updated_time" content="2018-05-28T14:18:59.504Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql的锁问题">
 <meta name="twitter:description" content="MySQL的锁机制比较简单，不同的存储引擎支持不同的锁机制。MyISAM和MEMORY存储引擎采用的是表级锁，BDB存储引擎采用的是页面锁，也支持表级锁。InnoDB存储引擎既支持行级锁，也支持表级锁。MySQL的3种锁的特性归纳如下:  表级锁: 开销小，加锁快，不会出现死锁，锁定粒度大，发生锁冲突的概率高，并发度低。 行级锁: 开销大，加锁慢，会出现死锁，锁定粒度小，发生锁冲突的概率最低，并发">
@@ -221,7 +221,109 @@
 <li>其他session可以查询会更新未锁定的表</li>
 <li>其他session更新已经加读锁的表会等待获得锁</li>
 </ul>
-<h3 id="4、并发插入"><a href="#4、并发插入" class="headerlink" title="4、并发插入"></a>4、并发插入</h3>
+<h3 id="4、并发插入"><a href="#4、并发插入" class="headerlink" title="4、并发插入"></a>4、并发插入</h3><p>MyISAM表的读和写是串行的，但是也支持插入和查询操作的并发进行，MyISAM引擎有一个系统变量<code>concurrent_inset</code>，专门用于控制并发插入的行为，其值可以是0、1和2，设置变量方法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global concurrent_inset=1</span><br></pre></td></tr></table></figure>
+<p>这三个值对应的意义如下:</p>
+<ul>
+<li>当为0时不允许并发插入</li>
+<li>当为1时如果MyISAM表中没有空洞，则允许并发插入记录，这也是MySQL的默认设置</li>
+<li>当为2时，无论如何都可以并发插入数据</li>
+</ul>
+<p>允许并发插入的加锁如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lock table user read local;</span><br></pre></td></tr></table></figure>
+<p>在lock语句的最后加上local关键字，表示允许并发插入。一个session加读锁，另外的session可以并发插入数据。一个session加local的写锁，不会影响其他线程对数据的读操作。</p>
+<h1 id="二、InnoDB锁问题。"><a href="#二、InnoDB锁问题。" class="headerlink" title="二、InnoDB锁问题。"></a>二、InnoDB锁问题。</h1><p>InnoDB与MyISAM最大不同有两点: 一是支持事务，二是采用了行级锁。</p>
+<h3 id="1、事务"><a href="#1、事务" class="headerlink" title="1、事务"></a>1、事务</h3><p>事务的ACID属性</p>
+<ul>
+<li>原子性： 事务是一个院子操作单元，其对数据的修改，要么全部执行，要么全部不执行</li>
+<li>一致性： 在事务开始和完成时，数据都必须保持一致性状态。这意味着所有相关的数据规则都必须应用于事务的修改，以保持数据的完整性，当事务结束时，所有的内部数据（如B树索引和双向链表）也都必须是正确的</li>
+<li>隔离性： 数据库系统提供一定的隔离机制，保证事务在不受外部并发操作的影响的“独立”环境执行。这意味这事务在处理过程中的中间状态对于外部是不可见的，反之亦然。</li>
+<li>持久性： 事务完成之后，他对于数据的修改是永久性的，即时出现系统故障也能够保持。</li>
+</ul>
+<h3 id="2、并发事务处理带来的问题"><a href="#2、并发事务处理带来的问题" class="headerlink" title="2、并发事务处理带来的问题"></a>2、并发事务处理带来的问题</h3><p>并发事务处理能够大大增加数据库资源的利用率，提高数据库系统的事务吞吐量，从而支持更多的用户，但是并发事务也带来一些问题，主要包括如下问题:</p>
+<ul>
+<li>更新丢失: 当两个或者多个事务选择同一行，然后基于最初选定的值更新该行时，由于每个事务都不知道其他事务的存在，就会发生更新丢失的问题–最后的更新覆盖了由其他事务所做的更新。</li>
+<li>脏读: 一个事务正在对一条记录做修改，在这个事务完成提交前，这条记录的数据就处于不一致转台，这时，另外一个事务也来读取同一条记录，如果不加控制，第二个事务就会读取到这些未提交的脏数据，并据此做进一步处理，就会产生未提交的数据依赖关系。</li>
+<li>不可重复读: 一个事务在读取某些数据之后的某个时间再次读取以前读过的数据，却发现其独处的数据已经改变或者已经被删除了，这种现象就叫做不可重复读</li>
+<li>幻读: 一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就叫做幻读</li>
+</ul>
+<h3 id="3、事务的隔离级别"><a href="#3、事务的隔离级别" class="headerlink" title="3、事务的隔离级别"></a>3、事务的隔离级别</h3><p>数据库实现事务隔离级别的方式，基本上可分为以下两种:</p>
+<ul>
+<li>一种是在读取数据之前，对其加锁，阻止其他事务对数据进行修改</li>
+<li>通过一定机制生成一个数据请求时间点的一致性数据快照，并用这个快照来提供一定级别的一致性读取，从用户的角度来看，好像是数据库可以提供同一数据的多个版本，因此，这种技术也叫做数据多版本并发控制，简称MVCC，也常称作多版本数据库</li>
+</ul>
+<p>事务的四个隔离级别如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">读数据一致性</th>
+<th style="text-align:left">脏读</th>
+<th style="text-align:left">不可重复读</th>
+<th style="text-align:left">幻读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">未提交读(Read uncommitted)</td>
+<td style="text-align:left">最低级别，只能保证不会读取到物理上损坏的数据</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">是</td>
+</tr>
+<tr>
+<td style="text-align:left">已提交读(Read committed)</td>
+<td style="text-align:left">语句级</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">是</td>
+<td style="text-align:left">是</td>
+</tr>
+<tr>
+<td style="text-align:left">可重复读(Repeatable read)</td>
+<td style="text-align:left">事务级</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">是</td>
+</tr>
+<tr>
+<td style="text-align:left">可序列化(Serializable)</td>
+<td style="text-align:left">最高级别，事务级</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">否</td>
+<td style="text-align:left">否</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4、InnoDB行锁及其加锁方法"><a href="#4、InnoDB行锁及其加锁方法" class="headerlink" title="4、InnoDB行锁及其加锁方法"></a>4、InnoDB行锁及其加锁方法</h3><p>InnoDB实现了一下两种类型的行锁</p>
+<ul>
+<li>共享锁(S): 允许一个事务去读一行，阻止其他事务活的相同数据集的排他锁</li>
+<li>排他锁(X): 允许获得排他锁的事务更新数据，阻止其他事务获得相同数据集的共享锁和排他锁</li>
+</ul>
+<p>为了允许行锁和表锁共存，实现多粒度锁机制，InnoDB还有两种内部使用的意向锁，这两种意向锁都是表锁</p>
+<ul>
+<li>意向共享锁(IS): 事务打算给数据行加共享锁之前必须先取得该表的意向共享锁</li>
+<li>意向排他锁(IX): 事务打算给数据航加排他锁之前必须先取得该表的意向排它锁</li>
+</ul>
+<p>意向锁是InnoDB自动加上的，不需要用户干预。对于UPDATE, DELETE, INSERT语句，InnoDB会自动给涉及数据集加排他锁(X),对于普通的SELECT语句，InnoDB不会加任何的锁。事务可以通过以下语句显示的给记录集加共享锁或者排他锁。</p>
+<ul>
+<li>共享锁(S): <code>SELECT * FROM table_name WHERE ... LOCK IN SHARE MODE</code></li>
+<li>排他锁(X): <code>SELECT * FROM table_name WHERE ... FOR UPDATE</code></li>
+</ul>
+<p>共享锁例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT actor_id, first_name, last_name FROM actor WHERE actor_id = 178 LOCK IN SHARE MODE</span><br></pre></td></tr></table></figure>
+<p>当一个session获得记录集的共享锁之后，具有如下特性:</p>
+<ul>
+<li>其他session仍然可以查询记录，并也可以对该记录加share mode的共享锁。</li>
+<li>其他session对共享锁锁定的记录进行更新操作，需要等待锁</li>
+<li>只有获得锁之后才能更新数据</li>
+</ul>
+<h3 id="5、InnoDB行锁实现方式"><a href="#5、InnoDB行锁实现方式" class="headerlink" title="5、InnoDB行锁实现方式"></a>5、InnoDB行锁实现方式</h3><p>InnoDB行锁是通过给索引上的索引项加锁来实现的，如果没有索引，InnoDB将通过隐藏的聚簇索引来对记录加锁。InnoDB行锁分为3中情形:</p>
+<ul>
+<li>Record lock: 对索引项加锁</li>
+<li>Gap lock: 对索引项之间的间隙、第一条记录前的间隙或最后一条记录后的间隙加锁</li>
+<li>Next-key lock: 前两种的组合，对记录及其前面的间隙加锁</li>
+</ul>
+
       
 
       
@@ -440,7 +542,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
             
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
+                <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
               </li>
             
               <li class="article-tag-list-item">
@@ -448,11 +550,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
             
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">事务</a>
+                <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
               </li>
             
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
+                <a href="javascript:void(0)" class="js-tag color3">事务</a>
               </li>
             
             <div class="clearfix"></div>
